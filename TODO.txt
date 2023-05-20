@@ -1,0 +1,44 @@
+________________________________________________
+                     TODO
+    🟢 - In Progress
+    🔴 - URGENT
+    🟠 - Medium Priority
+    🟡 - Low Priority
+    🔵 - Feature
+    ⚫ - Dropped Feature
+    ⚪ - Reminder
+    ✅ - Completed
+________________________________________________
+    Current Tasks
+    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+    - Create sidebar for sim controls
+    - Create simulation space
+    ____________________________________________
+    Ideas/Features
+    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+    🔴 Implement double pendulum simulation in Three.js
+    🔴 Add interactive controls to adjust parameters (length, mass, initial conditions, etc.)
+    🟠 Enhance visual effects and animations for the double pendulum
+    🟠 Implement real-time measurements and visualizations (e.g., angles, velocities)
+    ⚪ Research and apply optimizations for smooth and efficient simulation
+    🟡 Add multiple double pendulum instances with different configurations
+    🔴 Implement user interaction with the double pendulum (e.g., dragging, releasing)
+    🔴 Create a UI panel for controlling and customizing the double pendulum
+    🟡 Implement different presets and scenarios for the double pendulum
+    🟡 Add tooltips and instructions for user guidance
+    🟡 Test and debug the double pendulum simulation
+    ⚪ Optimize for performance and responsiveness on different devices
+    🟡 Document the development process and explain key concepts
+    🟡 Polish the code and improve overall project organization
+    ⚪ Create a visually appealing and user-friendly interface for the simulation
+    ⚪ Implement save and load functionality for saving specific configurations
+    🟡 Finalize the project and prepare for deployment
+
+________________________________________________
+                     BUGS
+________________________________________________
+
+
+________________________________________________
+              COMPLETED FEATURES/TASKS
+________________________________________________    
