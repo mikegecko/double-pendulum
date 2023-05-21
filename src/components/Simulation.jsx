@@ -43,20 +43,29 @@ function SceneInit() {
         const sphere1 = new THREE.Mesh(sphereGeometry, sphereMaterial);
         const sphere2 = new THREE.Mesh(sphereGeometry, sphereMaterial);
         const anchor1 = new THREE.Mesh(anchorGeometry, sphereMaterial);
+        const anchor = new THREE.Vector3(0, -20/ 2, 0);
+        const sphereOffset = new THREE.Vector3(0, 20, 0);
+        const spherePos = anchor.clone().add(sphereOffset);
         
+        const initialRotation = Math.PI / 4;
+
+
         rod1Ref.current = rod1;
         rod2Ref.current = rod2;
         sphere1Ref.current = sphere1;
         sphere2Ref.current = sphere2;
         anchorRef.current = anchor1;
 
-        sphere1.position.set(0,0,0);
-        sphere2.position.set(0, -20, 0);
-        anchor1.position.set(0,20,0);
+        sphere1.position.copy(rod1.position);
+        sphere2.position.set(0, -40, 0);
+        anchor1.position.copy(anchor);
 
         //Set initial position for the rods
-        rod1.position.copy(sphere1.position);
+        rod1.position.copy(anchor);
+        rod1.rotation.z = initialRotation;
+
         rod2.position.copy(sphere2.position);
+
 
         //Set initial velocity for the sphere
         sphere1.velocity = new THREE.Vector3(0, 0, 0);
@@ -78,6 +87,8 @@ function SceneInit() {
         const rodLength2 = 20;
         const mass1 = 1;
         const mass2 = 1;
+        const anchor = new THREE.Vector3(0, rodLength1, 0);
+        const distanceClamp = new THREE.Vector3(0, 20, 0);
         
         const rod1 = rod1Ref.current;
         const rod2 = rod2Ref.current;
@@ -86,6 +97,12 @@ function SceneInit() {
 
         const rodOffset1 = new THREE.Vector3(0, 10, 0);
         const rodOffset2 = new THREE.Vector3(0, 10, 0); 
+
+        //Update sphere position to maintain constraint
+        const sphereToAnchor = sphere1.position.clone().sub(anchor);
+        const currentDistance = sphereToAnchor.length();
+        const correction = distanceClamp.clone().sub(sphereToAnchor).multiplyScalar(0.01);
+        sphere1.position.add(correction);
 
         //Get current position of spheres
         const position1 = sphere1Ref.current.position;
@@ -118,16 +135,16 @@ function SceneInit() {
 
 
         //Update velocity
-        velocity1.x += acceleration1.x * 0.1;
-        velocity1.y += acceleration1.y * 0.1;
-        velocity2.x += acceleration2.x * 0.1;
-        velocity2.y += acceleration2.y * 0.1;
+        // velocity1.x += acceleration1.x * 0.1;
+        // velocity1.y += acceleration1.y * 0.1;
+        // velocity2.x += acceleration2.x * 0.1;
+        // velocity2.y += acceleration2.y * 0.1;
 
         //Update position
-        position1.x += velocity1.x;
-        position1.y += velocity1.y;
-        position2.x += velocity2.x;
-        position2.y += velocity2.y;
+        // position1.x += velocity1.x;
+        // position1.y += velocity1.y;
+        // position2.x += velocity2.x;
+        // position2.y += velocity2.y;
 
         // Broken doesnt work
         // position1.x = rodLength1 * Math.sin(angle1);
@@ -136,8 +153,8 @@ function SceneInit() {
         // position2.y = position1.y + rodLength2 * Math.cos(angle2);
 
         //Update rod position
-        rod1Ref.current.position.copy(rodOffset1);
-        rod2Ref.current.position.copy(rodOffset2.add(position2));
+        // rod1Ref.current.position.copy(rodOffset1);
+        // rod2Ref.current.position.copy(rodOffset2.add(position2));
 
         //Update sphere velocity
         sphere1Ref.current.velocity.copy(velocity1);

@@ -13,7 +13,8 @@ ________________________________________________
     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
     🔴 Find a way to constrain rods to anchor point
         - Use groups for hacky workaround
-        - 
+        - Use matrices
+        
     🔴 Constrain spheres to ends of rods but still use spheres for calculations
     🔴 Fix physics calculations for pendulum
     ____________________________________________
