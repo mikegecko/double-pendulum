@@ -84,7 +84,9 @@ function SceneInit() {
 
   useFrame(() => {
     // Constants
-    const gravity = 0;
+    const gravity = 9.8;
+    const damping = 0.98; // Arbitrary damping to simulate friction
+    const angularDamping = .999; // Adjust the angular damping value (between 0 and 1) to control the angular dampening effect
 
     // Get positions and rotations of objects
     const rod1Position = rod1Ref.current.position;
@@ -105,21 +107,31 @@ function SceneInit() {
     const acceleration = force.clone().multiplyScalar(timeDelta);
     sphere1.userData.velocity ||= new THREE.Vector3(); // Create a velocity vector if it doesn't exist yet
     sphere1.userData.velocity.add(acceleration);
+    sphere1.userData.velocity.multiplyScalar(damping); // Apply dampening to the velocity
 
     // Calculate angular acceleration
-    const angularForce = new THREE.Vector3(0, 0, 0.5); // Adjust the values to apply the desired rotational force
-    const angularAcceleration = angularForce.clone().multiplyScalar(timeDelta);
+  const rodOffset = new THREE.Vector3(0, 20, 0); // Offset from the rod's origin to the sphere
+  const rotatedOffset = rodOffset.clone().applyEuler(rod1Rotation);
+  const spherePosition = rod1Position.clone().add(rotatedOffset);
 
-    // Apply angular acceleration to the rod's rotation
-    rod1Ref.current.rotation.z += angularAcceleration.z;
+  const sphereToRodEnd = spherePosition.clone().sub(rodEndPosition);
+  const tensionForce = sphereToRodEnd.clone().multiplyScalar(0.1); // Adjust the tension force value as needed
 
-    // Update sphere position to maintain constraint
-    const rodOffset = new THREE.Vector3(0, 20, 0); // Offset from the rod's origin to the sphere
-    const rotatedOffset = rodOffset.clone().applyEuler(rod1Rotation);
-    const spherePosition = rod1Position.clone().add(rotatedOffset);
-    sphere1.position.copy(spherePosition);
+  const angularForce = new THREE.Vector3(0, 0, 0.5); // Adjust the values to apply the desired rotational force
 
-    // Apply velocity to position
-    sphere1.position.add(sphere1.userData.velocity);
+  const angularAcceleration = angularForce
+    .clone()
+    .add(tensionForce)
+    .multiplyScalar(timeDelta);
+
+  // Apply angular acceleration to the rod's rotation
+  rod1Ref.current.rotation.z += angularAcceleration.z;
+  rod1Ref.current.rotation.z *= angularDamping; // Apply angular dampening to gradually stop the rotation
+
+  // Update sphere position to maintain constraint
+  sphere1.position.copy(spherePosition);
+
+  // Apply velocity to position
+  sphere1.position.add(sphere1.userData.velocity);
   });
 }
