@@ -11,8 +11,11 @@ ________________________________________________
 ________________________________________________
     Current Tasks
     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-
-    🔴 Add physics to pendulum
+    🔴 Find a way to constrain rods to anchor point
+        - Use groups for hacky workaround
+        - 
+    🔴 Constrain spheres to ends of rods but still use spheres for calculations
+    🔴 Fix physics calculations for pendulum
     ____________________________________________
     Ideas/Features
     ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯

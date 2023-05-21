@@ -50,7 +50,6 @@ function SceneInit() {
         sphere2Ref.current = sphere2;
         anchorRef.current = anchor1;
 
-        //Set initial position for the sphere ( maybe this causes the shooting off)
         sphere1.position.set(0,0,0);
         sphere2.position.set(0, -20, 0);
         anchor1.position.set(0,20,0);
@@ -86,7 +85,7 @@ function SceneInit() {
         const sphere2 = sphere2Ref.current;
 
         const rodOffset1 = new THREE.Vector3(0, 10, 0);
-        const rodOffset2 = new THREE.Vector3(0, 10, 0); //make this 10 later
+        const rodOffset2 = new THREE.Vector3(0, 10, 0); 
 
         //Get current position of spheres
         const position1 = sphere1Ref.current.position;
@@ -109,12 +108,13 @@ function SceneInit() {
         const denominator1 = rodLength1 * (mass1 + mass2 * Math.sin(angle1 - angle2) ** 2);
         const denominator2 = rodLength2 * (2 * mass1 + mass2 - mass2 * Math.cos(2 * angle1 - 2 * angle2));
 
-        acceleration1.x = (-gravity * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * gravity * Math.sin(angle1 - 2 * angle2) - 2 * Math.sin(angle1 - angle2) * mass2 * (velocity2.x ** 2 * rodLength2 + velocity1.x ** 2 * rodLength1 * Math.cos(angle1 - angle2))) / (rodLength1 * denominator1);
-        acceleration1.y = (2 * Math.sin(angle1 - angle2) * (velocity1.x ** 2 * rodLength1 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity2.x ** 2 * rodLength2 * mass2 * Math.cos(angle1 - angle2))) / (rodLength1 * denominator1);
-        acceleration2.x = (2 * Math.sin(angle1 - angle2) * (velocity1.x ** 2 * rodLength1 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity2.x ** 2 * rodLength2 * mass2 * Math.cos(angle1 - angle2))) / (rodLength2 * denominator2);
-        acceleration2.y = (2 * mass2 * Math.sin(angle1 - angle2) * (velocity2.x ** 2 * rodLength2 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity1.x ** 2 * rodLength1 * mass1 * Math.cos(angle1 - angle2))) / (rodLength2 * denominator2);
-        acceleration1.z = 0;
-        acceleration2.z = 0;
+        //This is probably broken
+        // acceleration1.x = (-gravity * (2 * mass1 + mass2) * Math.sin(angle1) - mass2 * gravity * Math.sin(angle1 - 2 * angle2) - 2 * Math.sin(angle1 - angle2) * mass2 * (velocity2.x ** 2 * rodLength2 + velocity1.x ** 2 * rodLength1 * Math.cos(angle1 - angle2))) / (rodLength1 * denominator1);
+        // acceleration1.y = (2 * Math.sin(angle1 - angle2) * (velocity1.x ** 2 * rodLength1 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity2.x ** 2 * rodLength2 * mass2 * Math.cos(angle1 - angle2))) / (rodLength1 * denominator1);
+        // acceleration2.x = (2 * Math.sin(angle1 - angle2) * (velocity1.x ** 2 * rodLength1 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity2.x ** 2 * rodLength2 * mass2 * Math.cos(angle1 - angle2))) / (rodLength2 * denominator2);
+        // acceleration2.y = (2 * mass2 * Math.sin(angle1 - angle2) * (velocity2.x ** 2 * rodLength2 * (mass1 + mass2) + gravity * (mass1 + mass2) * Math.cos(angle1) + velocity1.x ** 2 * rodLength1 * mass1 * Math.cos(angle1 - angle2))) / (rodLength2 * denominator2);
+        // acceleration1.z = 0;
+        // acceleration2.z = 0;
 
 
         //Update velocity
