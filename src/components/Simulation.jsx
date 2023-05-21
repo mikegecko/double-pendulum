@@ -12,7 +12,6 @@ export default function Simulation() {
             <Canvas ref={sceneRef}>
                 <SceneInit />
                 <ambientLight />
-                {/* <Sphere args={[39,16,16]}/> */}
                 <OrbitControls />
             </Canvas>
         </Box>
@@ -25,16 +24,17 @@ function SceneInit() {
     //gl.setClearColor(0x000000, 0.0);
     camera.position.z = 100;
     // hooks to for scene geometry
-    const anchorSphereRef = useRef();
+    const anchorRef = useRef();
     const rod1Ref = useRef();
     const rod2Ref = useRef();
     const sphere1Ref = useRef();
     const sphere2Ref = useRef();
 
-    const rodGeometry = new THREE.CylinderGeometry(0.5, 0.5, 10);
+    const rodGeometry = new THREE.CylinderGeometry(0.5, 0.5, 20);
     const rodMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-    const sphereGeometry = new THREE.SphereGeometry(5,8,16); 
+    const sphereGeometry = new THREE.SphereGeometry(4,8,16); 
     const sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const anchorGeometry = new THREE.SphereGeometry(2,8,16);
 
     useEffect(() => {
         //add objects to scene
@@ -42,15 +42,18 @@ function SceneInit() {
         const rod2 = new THREE.Mesh(rodGeometry, rodMaterial);
         const sphere1 = new THREE.Mesh(sphereGeometry, sphereMaterial);
         const sphere2 = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        const anchor1 = new THREE.Mesh(anchorGeometry, sphereMaterial);
         
         rod1Ref.current = rod1;
         rod2Ref.current = rod2;
         sphere1Ref.current = sphere1;
         sphere2Ref.current = sphere2;
+        anchorRef.current = anchor1;
 
-        //Set initial position for the sphere
+        //Set initial position for the sphere ( maybe this causes the shooting off)
         sphere1.position.set(0,0,0);
         sphere2.position.set(0, -20, 0);
+        anchor1.position.set(0,20,0);
 
         //Set initial position for the rods
         rod1.position.copy(sphere1.position);
@@ -61,11 +64,11 @@ function SceneInit() {
         sphere2.velocity = new THREE.Vector3(0, 0, 0);
 
         //Add objects to scene
-        scene.add(rod1, rod2, sphere1, sphere2);
+        scene.add(rod1, rod2, sphere1, sphere2, anchor1);
 
         //Cleanup function to remove objects from scene
         return () => {
-            scene.remove(rod1, rod2, sphere1, sphere2);
+            scene.remove(rod1, rod2, sphere1, sphere2, anchor1);
         }
     }, [scene])
 
@@ -76,7 +79,15 @@ function SceneInit() {
         const rodLength2 = 20;
         const mass1 = 1;
         const mass2 = 1;
-    
+        
+        const rod1 = rod1Ref.current;
+        const rod2 = rod2Ref.current;
+        const sphere1 = sphere1Ref.current;
+        const sphere2 = sphere2Ref.current;
+
+        const rodOffset1 = new THREE.Vector3(0, 10, 0);
+        const rodOffset2 = new THREE.Vector3(0, 10, 0); //make this 10 later
+
         //Get current position of spheres
         const position1 = sphere1Ref.current.position;
         const position2 = sphere2Ref.current.position;
@@ -118,9 +129,15 @@ function SceneInit() {
         position2.x += velocity2.x;
         position2.y += velocity2.y;
 
+        // Broken doesnt work
+        // position1.x = rodLength1 * Math.sin(angle1);
+        // position1.y = rodLength1 * Math.cos(angle1);
+        // position2.x = position1.x + rodLength2 * Math.sin(angle2);
+        // position2.y = position1.y + rodLength2 * Math.cos(angle2);
+
         //Update rod position
-        rod1Ref.current.position.copy(position1);
-        rod2Ref.current.position.copy(position2);
+        rod1Ref.current.position.copy(rodOffset1);
+        rod2Ref.current.position.copy(rodOffset2.add(position2));
 
         //Update sphere velocity
         sphere1Ref.current.velocity.copy(velocity1);
